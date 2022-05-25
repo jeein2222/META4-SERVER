@@ -3,7 +3,7 @@ from flask_restx import Resource, Api, reqparse
 import openai
 from gpt import GPT, Example
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 app=Flask(__name__)
 api=Api(app)
@@ -40,8 +40,9 @@ class testAPI(Resource):
                 gpt.add_example(Example(
                         "혼자서도 잘할 거야\n\n##\n\n",
                         " 거야 거야 할 거야 혼자서도 잘할 거야\n예쁜 짓 고운 짓 혼자서도 잘할 거야\n엄마는 잘한다고 호호호 호호호호\n아빠는 귀엽다고 하하하하 하하하\n거야거야 할 거야 혼자서도 잘할 거야\n 예쁜 짓 고운 짓 혼자서도 잘할 거야END"))
-
-                prompt = "강아지가 \n\n##\n\n"
+                
+                str="\n\n##\n\n"
+                prompt = parsed_request+str
                 output = gpt.submit_request(prompt)
                 return output.choices[0]['text'];
 
