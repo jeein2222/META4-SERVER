@@ -27,11 +27,10 @@ app.use(express.urlencoded({ limit: "50mb", extended: false }));
 
 //라우터
 const imageRouter = require("./routes/Images");
-// const lyricsRouter = require("./routes/Lyrics");
 
 app.use("/uploads", express.static("uploads"));
 app.use("/api/image", imageRouter);
-// app.use("/api/lyrics", lyricsRouter);
+
 
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기 중");
