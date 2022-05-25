@@ -2,10 +2,16 @@ from flask import Flask,jsonify, request
 from flask_restx import Resource, Api, reqparse
 import openai
 from gpt import GPT, Example
+#태영 - cors 오류 해결하기 위해 $pip install flask_cors 해줌
+from  flask_cors import CORS
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 app=Flask(__name__)
+
+#태영 - cors 추가 : 모든 곳에서 호출하는 것을 허용하게 함.
+CORS(app)
+
 api=Api(app)
 app.config['DEBUG']=True
 
@@ -20,6 +26,7 @@ class testAPI(Resource):
         def post(self):
                 #prompt값 노드에서 받아와야 됨
                 parsed_request=request.json.get('content')
+                
                 print(parsed_request)
                 gpt = GPT(engine="davinci",temperature=0.5,max_tokens=200)
                 gpt.add_example(Example(
@@ -49,6 +56,3 @@ class testAPI(Resource):
 if __name__=='__main__':
         app.run(debug=True)
         
-
-
-
