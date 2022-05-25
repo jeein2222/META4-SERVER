@@ -3,7 +3,7 @@ from flask_restx import Resource, Api, reqparse
 import openai
 from gpt import GPT, Example
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 app=Flask(__name__)
 api=Api(app)
