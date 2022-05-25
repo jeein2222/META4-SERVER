@@ -1,4 +1,3 @@
-const axios = require("axios");
 const express = require("express");
 const path = require("path");
 const morgan = require("morgan");
@@ -28,22 +27,12 @@ app.use(express.urlencoded({ limit: "50mb", extended: false }));
 
 //라우터
 const imageRouter = require("./routes/Images");
+const lyricsRouter = require("./routes/Lyrics");
 
 app.use("/uploads", express.static("uploads"));
 app.use("/api/image", imageRouter);
-
-app.get('/', async (req, res) => {
-  try{
-      const response=await axios.post("http://localhost:5000/test",{content:"허수아비가"});
-      console.log(response.data);
-      res.status(201).json({result:"successPost"});
-      res.send(response);
-  }catch(error){
-
-  }
-});
+app.use("/api/lyrics", lyricsRouter);
 
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기 중");
 });
-

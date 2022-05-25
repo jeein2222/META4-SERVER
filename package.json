@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "npm-run-all --parallel start:**",
+    "start:client": "cd ../Meta4-FRONTEND/meta4-front && npm start && yarn start",
+    "start:server": "nodemon index.js"
   },
   "author": "meta4팀",
   "license": "ISC",
@@ -17,6 +19,7 @@
     "morgan": "1.10.0",
     "multer": "1.4.4",
     "mysql2": "2.3.3",
+    "npm-run-all": "4.1.5",
     "nunjucks": "3.2.3",
     "sequelize": "6.19.2",
     "sequelize-cli": "6.4.1"
@@ -24,5 +27,4 @@
   "devDependencies": {
     "nodemon": "^2.0.16"
   }
-
 }
