@@ -1,8 +1,9 @@
-from flask import Flask,jsonify, request
+from flask import Flask, jsonify, request
 from flask_restx import Resource, Api, reqparse
 import openai
 from gpt import GPT, Example
 #태영 - cors 오류 해결하기 위해 $pip install flask_cors 해줌
+
 from  flask_cors import CORS
 
 openai.api_key = "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"
@@ -14,12 +15,36 @@ CORS(app)
 
 api=Api(app)
 app.config['DEBUG']=True
+gpt = GPT(engine="davinci",temperature=0.3,max_tokens=200)
+gpt.add_example(Example(
+                        "흰 눈이 펄펄 내린다\n\n###\n\n",
+                        " 싹트네 싹터요 내 마음에 사랑이\n싹트네 싹터요 내 마음에 사랑이\n 밀려오는 파도처럼 내 마음에 사랑이 \n싹트네 싹터요 내 마음에 사랑이\n"))
+gpt.add_example(Example(
+                        "나는 눈이 좋아서\n\n###\n\n",
+                        " 나는 눈이 좋아서\n 꿈에 눈이 오나 봐\n 온 세상이 모두 하얀 나라였지\n 어젯밤 꿈 속에\n 썰매를 탔죠 눈싸움 했죠\n 커다란 눈사람도 만들었죠\n 나는 눈이 좋아서\n"))
+gpt.add_example(Example(
+                        "눈은 어디있나 요기 여기\n\n###\n\n",
+                        " 눈은 어디있나 요기 코는 어디있나 요기\n 귀는 어디있나 요기 입은 어디 있을까 요기\n 엄마눈은 어디있나 여기 엄마 코는 어디있나 여기\n 엄마귀는 어디있나 여기 입은 어디 있을까 여기\n"))
+gpt.add_example(Example(
+                        "토실토실 아기 돼지\n\n##\n\n",
+                        " 토실토실 아기돼지 젖달라고 꿀꿀꿀\n엄마돼지 오냐오냐 알았다고 꿀꿀꿀\n꿀꿀 꿀꿀 꿀꿀 꿀꿀\n꿀꿀꿀꿀 꿀꿀꿀꿀 꿀꿀꿀꿀꿀\n아기돼지 바깥으로 나가자고 꿀꿀꿀\n엄마돼지 비가와서 안된다고 꿀꿀꿀"))
+gpt.add_example(Example(
+                        "아기 돼지 \n\n##\n\n",
+                        " 돼지가 집을 짓는데\n짚으로 짚으로 집을 짓는데\n늑대가 나타나 후~~~~~~~~~~~~~\n날아가버렸데요 \n뿅!!!!\n"))
+gpt.add_example(Example(
+                        "통통한 아기돼지 \n\n##\n\n",
+                        " 통통한 아기돼지 젖달라고 꿀꿀꿀\n엄마돼지 오냐오냐 알았다고 꿀꿀꿀\n꿀꿀 꿀꿀 꿀꿀 꿀꿀\n꿀꿀꿀꿀 꿀꿀꿀꿀 꿀꿀꿀꿀꿀\n"))
+gpt.add_example(Example(
+                        "귀여운 아기돼지\n\n##\n\n",
+                        " 귀여운 아기돼지 배고파서 꿀꿀꿀\n엄마돼지 오냐오냐 알았다고 꿀꿀꿀\n꿀꿀 꿀꿀 꿀꿀 꿀꿀\n꿀꿀꿀꿀 꿀꿀꿀꿀 꿀꿀꿀꿀꿀\n"))
+# gpt.add_example(Example(
+#                         "작은 동물원\n\n###\n\n",
+#                         " 삐약삐약 병아리 음메음메 송아지\n 따당따당 사냥꾼 뒤뚱뒤뚱 물오리\n 푸푸 개구리 집게집게집게 가재\n 푸르르르르르르 물풀 하나 둘 셋 넷 소라\n "))
+# gpt.add_example(Example(
+#                         "코끼리 아저씨는\n\n###\n\n",
+#                         " 코끼리 아저씨는 코가 손이래\n 과자를 주면은 코로 받지요\n 코끼리 아저씨는 소방소래요\n 불이 나면 빨리와 모셔가지요\n 코끼리 아저씨는 코가 손이래\n 과자를 주면은 코로 받지요\n"))
 
-@app.route('/dd')
-def index():
-        return 'hello nice to meet you'
-
-@api.route('/test')
+@api.route('/gpt')
 class testAPI(Resource):
         def get(self):
                 return jsonify({"result":"연결 성공 from flask"})
@@ -28,26 +53,6 @@ class testAPI(Resource):
                 parsed_request=request.json.get('content')
                 
                 print(parsed_request)
-                gpt = GPT(engine="davinci",temperature=0.5,max_tokens=200)
-                gpt.add_example(Example(
-                        "싹트네 싹터요\n\n##\n\n",
-                        " 싹트네 싹터요 내 마음에 사랑이\n싹트네 싹터요 내 마음에 사랑이\n 밀려오는 파도처럼 내 마음에 사랑이 \n싹트네 싹터요 내 마음에 사랑이END"))
-                gpt.add_example(Example(
-                        "요리 보고 조리 봐도\n\n##\n\n",
-                        " 요리 보고 조리 봐도 음 알 수 없는 둘리 둘리\n빙하 타고 내려와 음 친구를 만났지만 \n일억년 전 옛날이 너무나 그리워 \n보고픈 엄마 찾아 모두 함께 나가자 아 아 \n 외로운 둘리는 귀여운 아기 공룡 호이! 호이!\n둘리는 초능력 내 친구\n외로운 둘리는 귀여운 아기 공룡 호이! 호이!\n둘리는 초능력 재주꾼END"))
-                gpt.add_example(Example(
-                        "쪼로로롱 산새가\n\n##\n\n",
-                        " 쪼로로롱 산새가 노래하는 숲 속에\n예쁜 아기 다람쥐가 살고 있었어요\n울창한 숲속 푸른 나무 위에서 \n아기 다람쥐 또미가 살고 있었어요\n야호! 랄라 노래부르자\n야호! 숲속의 아침을\n야호! 트랄라 귀여운 아기 다람쥐또미END"))
-                gpt.add_example(Example(
-                        "토실토실 아기돼지\n\n##\n\n",
-                        " 토실토실 아기돼지 젖달라고 꿀꿀꿀\n엄마돼지 오냐오냐 알았다고 꿀꿀꿀\n꿀꿀 꿀꿀 꿀꿀 꿀꿀\n꿀꿀꿀꿀 꿀꿀꿀꿀 꿀꿀꿀꿀꿀\n아기돼지 바깥으로 나가자고 꿀꿀꿀\n엄마돼지 비가와서 안된다고 꿀꿀꿀END"))
-                gpt.add_example(Example(
-                        "허수아비 아저씨\n\n##\n\n",
-                        "하루종일 우뚝 서 있는\n성난 허수아비 아저씨\n짹짹짹짹짹 어이 무서워\n새들이 달아납니다\n하루종일 우뚝 서 있는\n 성난 허수아비 아저씨END"))
-                gpt.add_example(Example(
-                        "혼자서도 잘할 거야\n\n##\n\n",
-                        " 거야 거야 할 거야 혼자서도 잘할 거야\n예쁜 짓 고운 짓 혼자서도 잘할 거야\n엄마는 잘한다고 호호호 호호호호\n아빠는 귀엽다고 하하하하 하하하\n거야거야 할 거야 혼자서도 잘할 거야\n 예쁜 짓 고운 짓 혼자서도 잘할 거야END"))
-                
                 str="\n\n##\n\n"
                 prompt = parsed_request+str
                 output = gpt.submit_request(prompt)
@@ -56,6 +61,3 @@ class testAPI(Resource):
 if __name__=='__main__':
         app.run(debug=True)
         
-
-
-
