@@ -3,9 +3,10 @@ from flask_restx import Resource, Api, reqparse
 import openai
 from gpt import GPT, Example
 #태영 - cors 오류 해결하기 위해 $pip install flask_cors 해줌
-from flask_cors import CORS
 
-openai.api_key = "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"
+from  flask_cors import CORS
+
+openai.api_key = "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"
 
 app=Flask(__name__)
 
@@ -50,6 +51,7 @@ class testAPI(Resource):
         def post(self):
                 #prompt값 노드에서 받아와야 됨
                 parsed_request=request.json.get('content')
+                
                 print(parsed_request)
                 str="\n\n##\n\n"
                 prompt = parsed_request+str
