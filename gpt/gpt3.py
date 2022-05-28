@@ -5,7 +5,7 @@ from gpt import GPT, Example
 #태영 - cors 오류 해결하기 위해 $pip install flask_cors 해줌
 from flask_cors import CORS
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 app=Flask(__name__)
 
@@ -14,7 +14,7 @@ CORS(app)
 
 api=Api(app)
 app.config['DEBUG']=True
-gpt = GPT(engine="davinci",temperature=0.3,max_tokens=200)
+gpt = GPT(engine="davinci",temperature=0.7,max_tokens=200)
 gpt.add_example(Example(
                         "흰 눈이 펄펄 내린다\n\n###\n\n",
                         " 싹트네 싹터요 내 마음에 사랑이\n싹트네 싹터요 내 마음에 사랑이\n 밀려오는 파도처럼 내 마음에 사랑이 \n싹트네 싹터요 내 마음에 사랑이\n"))
@@ -36,12 +36,12 @@ gpt.add_example(Example(
 gpt.add_example(Example(
                         "귀여운 아기돼지\n\n##\n\n",
                         " 귀여운 아기돼지 배고파서 꿀꿀꿀\n엄마돼지 오냐오냐 알았다고 꿀꿀꿀\n꿀꿀 꿀꿀 꿀꿀 꿀꿀\n꿀꿀꿀꿀 꿀꿀꿀꿀 꿀꿀꿀꿀꿀\n"))
-# gpt.add_example(Example(
-#                         "작은 동물원\n\n###\n\n",
-#                         " 삐약삐약 병아리 음메음메 송아지\n 따당따당 사냥꾼 뒤뚱뒤뚱 물오리\n 푸푸 개구리 집게집게집게 가재\n 푸르르르르르르 물풀 하나 둘 셋 넷 소라\n "))
-# gpt.add_example(Example(
-#                         "코끼리 아저씨는\n\n###\n\n",
-#                         " 코끼리 아저씨는 코가 손이래\n 과자를 주면은 코로 받지요\n 코끼리 아저씨는 소방소래요\n 불이 나면 빨리와 모셔가지요\n 코끼리 아저씨는 코가 손이래\n 과자를 주면은 코로 받지요\n"))
+gpt.add_example(Example(
+                        "작은 동물원\n\n###\n\n",
+                        " 삐약삐약 병아리 음메음메 송아지\n 따당따당 사냥꾼 뒤뚱뒤뚱 물오리\n 푸푸 개구리 집게집게집게 가재\n 푸르르르르르르 물풀 하나 둘 셋 넷 소라\n "))
+gpt.add_example(Example(
+                        "코끼리 아저씨는\n\n###\n\n",
+                        " 코끼리 아저씨는 코가 손이래\n 과자를 주면은 코로 받지요\n 코끼리 아저씨는 소방소래요\n 불이 나면 빨리와 모셔가지요\n 코끼리 아저씨는 코가 손이래\n 과자를 주면은 코로 받지요\n"))
 
 @api.route('/gpt')
 class testAPI(Resource):
