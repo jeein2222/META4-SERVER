@@ -7,7 +7,7 @@ from gpt import GPT, Example
 
 from  flask_cors import CORS
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 app=Flask(__name__)
 
@@ -20,9 +20,6 @@ gpt = GPT(engine="davinci",temperature=0.7,max_tokens=200)
 gpt.add_example(Example(
                         "흰 눈이 펄펄 내린다\n\n###\n\n",
                         " 싹트네 싹터요 내 마음에 사랑이\n싹트네 싹터요 내 마음에 사랑이\n 밀려오는 파도처럼 내 마음에 사랑이 \n싹트네 싹터요 내 마음에 사랑이\n"))
-gpt.add_example(Example(
-                        "나는 눈이 좋아서\n\n###\n\n",
-                        " 나는 눈이 좋아서\n 꿈에 눈이 오나 봐\n 온 세상이 모두 하얀 나라였지\n 어젯밤 꿈 속에\n 썰매를 탔죠 눈싸움 했죠\n 커다란 눈사람도 만들었죠\n 나는 눈이 좋아서\n"))
 gpt.add_example(Example(
                         "눈은 어디있나 요기 여기\n\n###\n\n",
                         " 눈은 어디있나 요기 코는 어디있나 요기\n 귀는 어디있나 요기 입은 어디 있을까 요기\n 엄마눈은 어디있나 여기 엄마 코는 어디있나 여기\n 엄마귀는 어디있나 여기 입은 어디 있을까 여기\n"))
@@ -52,8 +49,6 @@ class testAPI(Resource):
         def post(self):
                 #prompt값 노드에서 받아와야 됨
                 parsed_request=request.json.get('content')
-                
-                print(parsed_request)
                 str="\n\n##\n\n"
                 prompt = parsed_request+str
                 output = gpt.submit_request(prompt)
