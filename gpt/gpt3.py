@@ -7,7 +7,7 @@ from gpt import GPT, Example
 
 from  flask_cors import CORS
 
-openai.api_key = "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"
+openai.api_key = "_"
 
 app=Flask(__name__)
 
